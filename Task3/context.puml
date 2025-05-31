@@ -1,0 +1,27 @@
+@startuml context
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+title "Диаграмма контекста для MVP открытия депозитов"
+
+Person(User, "Клиент", "Клиент банка")
+Person(Manager, "Специалист банка")
+
+Boundary(Bank, "Банк Стандарт") {
+    System(UI, "Интернет-банк", "Система интернет-банкинга")
+    System(DepositsControl, "Депозиты", "Система управления депозитами")
+    System(ABS, "АБС", "Автоматизированная банковская система")
+}
+
+System_Ext(SMS, "SMS-шлюз", "Отправка SMS-сообщений")
+System_Ext(CallCenter, "Колл-центр", "Прием звонков и заявок от клиентов")
+
+Rel_D(User, UI, "Создает заявку", "HTTPS")
+Rel(User, CallCenter, "Создает обращение", "Телефония")
+Rel(UI, DepositsControl, "Получает данные", "HTTPS")
+Rel(DepositsControl, CallCenter, "Обрабатывает заявку", "HTTPS")
+Rel(DepositsControl, SMS, "Отправляет уведомление", "HTTPS")
+BiRel(DepositsControl, ABS, "Обмен данными", "HTTPS")
+Rel_R(Manager, User, "Согласует ставки", "HTTPS")
+
+@enduml

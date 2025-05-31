@@ -1,0 +1,20 @@
+@startuml context
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+title "Диаграмма контекста для передачи ставок по депозитам"
+
+Person(User, "Клиент", "Клиент банка")
+Person(Manager, "Специалист Колл-центра")
+
+System(SFTP, "SFTP-Сервер", "SFTP-сервер для передачи ставок по депозитам")
+System(Deposits, "Депозиты", "Система управления депозитами")
+
+System_Ext(CallCenter, "Колл-центр", "Прием звонков и заявок от клиентов")
+
+Rel_D(User, CallCenter, "Звонит в колл-центр для получения информации о ставках по депозитам", "Телефония")
+Rel_R(Manager, CallCenter, "Принимает звонки и заявки от клиентов", "Телефон")
+Rel_D(Manager, SFTP, "Запрашивает ставки по депозитам", "SFTP")
+Rel_L(Deposits, SFTP, "Передает ставки по депозитам", "SFTP")
+
+@enduml
